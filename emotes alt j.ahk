@@ -1,0 +1,32 @@
+﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+; #Warn  ; Enable warnings to assist with detecting common errors.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+
+;crear numeros aleatorios(1-6) y enviar un mensaje que este linkeado a ese numero
+
+!j::
+Random, rand, 1, 5
+If (rand==1)
+{
+    Send, 😁😊
+}
+
+if (rand==2){
+    Send, 🤗💖
+}
+If (rand=3)
+{
+    Send, 😁
+}
+
+if (rand==4){
+    Send, 😄
+}
+if (rand==5){
+    Send, 😅😁😁
+}
+
+Send,{Sleep 100} {Enter}
+
+return
