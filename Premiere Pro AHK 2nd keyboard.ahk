@@ -86,13 +86,6 @@ MouseClickDrag, left, , , %xpos%, %ypos%     ; click izq y arrastra a la posicio
 
 #IfWinActive ahk_exe Adobe Premiere Pro.exe
 
-+!k::
-MouseGetPos, xpos, ypos
-checkPanel()
-trashCheck()
-Send, push right
-moveToTransition()
-return
 
 Right::
 MouseGetPos, xpos, ypos
