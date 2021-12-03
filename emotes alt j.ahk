@@ -30,3 +30,6 @@ if (rand==5){
 Send,{Sleep 100} {Enter}
 
 return
+
+k::
+Send, hola kkk
