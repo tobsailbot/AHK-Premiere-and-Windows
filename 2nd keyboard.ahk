@@ -30,7 +30,7 @@ If WinActive("ahk_exe Adobe Premiere Pro.exe")
 Return
  
 ~LButton Up::
-    DllCall( SPIProc, Int, 0x71, Int, 0, UInt, 9, Int, 0) ; Default Windows 6 Ticks [10], adjust this as needed. 
+    DllCall( SPIProc, Int, 0x71, Int, 0, UInt, 10, Int, 0) ; Default Windows 6 Ticks [10], adjust this as needed. 
 Return
  
 #IfWinExist
@@ -164,9 +164,7 @@ p::Send, +#a
 
 ;--------------------------------------------
 
-w::msgbox, you pressed %A_thishotkey% on the extra keyboard
-e::tooltip, you pressed %A_thishotkey% on the extra keyboard
-r::SoundBeep, 1000, 500
+
 Numpad0:: Send, z
 
 
@@ -242,6 +240,103 @@ Send, copiadora
 moveToTransition()
 return
 
+
+; --------------------------------------------------------------------------
+; ----------------------- FL Studio automation ------------------------
+; -------------------------------------------------------------------------
+
+i::
+Send, {f8}
+Sleep, 10
+Send, parametric eq 2
+Sleep, 10
+Send, {Enter}
+return
+
+u::
+Send, {f8}
+Sleep, 10
+Send, limiter
+Sleep, 10
+Send, {Enter}
+return
+
+y::
+Send, {f8}
+Sleep, 10
+Send, reeverb 2
+Sleep, 10
+Send, {Enter}
+return
+
+t::
+Send, {f8}
+Sleep, 10
+Send, delay 3
+Sleep, 10
+Send, {Enter}
+return
+
+r::
+Send, {f8}
+Sleep, 10
+Send, saturation knob
+Sleep, 10
+Send, {Enter}
+return
+
+e::
+Send, {f8}
+Sleep, 10
+Send, fast dist
+Sleep, 10
+Send, {Enter}
+return
+
+;-------- vst ----------
+
+k::
+Send, {f8}
+Sleep, 10
+Send, ana 2
+Sleep, 10
+Send, {Enter}
+return
+
+j::
+Send, {f8}
+Sleep, 10
+Send, kontakt
+Sleep, 10
+Send, {Enter}
+return
+
+h::
+Send, {f8}
+Sleep, 10
+Send, spire
+Sleep, 10
+Send, {Enter}
+return
+
+g::
+Send, {f8}
+Sleep, 10
+Send, sampler
+Sleep, 10
+Send, {Enter}
+return
+
+f::
+Send, {f8}
+Sleep, 10
+Send, omnisp
+Sleep, 10
+Send, {Enter}
+return
+
+
+
 ; --------------------------------------------------------------------------
 ; ----------------------- Pymiere sounds automation ------------------------
 ; -------------------------------------------------------------------------
@@ -287,14 +382,75 @@ else
 }
 return
 
+#if
 
+
+; --------------------------------------------------------------------------
+; ----------------------- New Premiere Project -----------------------------
+; --------------------------------------------------------------------------
+
+
+; abrir consola y ejecutar script de python
+
+NumpadDot::
+script := "python new_premiere_project.py "
+InputBox, projName, New Pr Project, Name:, , 179, 132, 1747, 910
+if ErrorLevel {
+    SplashTextOn,,,cancel
+    SplashTextOff
+}
+else{
+
+    if WinExist("New Premiere Project console")
+{
+    	WinActivate , New Premiere Project console
+	Send, %script%%projName%
+	Send, {Enter}
+	WinMinimize, New Premiere Project console
+}
+else
+
+{
+	Run, C:\PythonScripts\New Premiere Project\New Premiere Project console.lnk
+    	WinWaitActive, New Premiere Project console
+	Send, %script%%projName%
+	Send, {Enter}
+	WinMinimize, New Premiere Project console
+}
+}
+
+return
 
 #if
 
 
+; -----------------------------------------------------------------------------
+; ------------------------------  FL Studio shortcuts  -------------------------
+; ------------------------------------------------------------------------------
 
- 
+; automations of third party plugins, alt + a
 
+!a::
+If WinActive("ahk_exe FL64.exe"){
+Send, {f5}
+Send, ^{enter}
+MouseMove, 240, 18
+sleep, 10
+Send {LButton down}
+sleep, 10
+Send, {l}
+sleep, 10
+Send, {a}
+}
+return
+
+; open mixer with ª
+
+#IfWinExist ahk_exe FL64.exe
+º::
+Send, {f9}
+return
+#IfWinExist
 
 
 
