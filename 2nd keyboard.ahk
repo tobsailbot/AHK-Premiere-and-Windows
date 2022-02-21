@@ -1,4 +1,4 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 ; #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
@@ -67,23 +67,19 @@ return
 
 
 
-
-
-
 ; -----------------------------------------------------------------------------------
 ; --------------------- Funciones de Premiere Pro ---------------------------------
 ; ---------------------------------------------------------------------------------
 
 ; -mediante reconocimiento de imagenes busca el panel de efectos, ingresa el texto a bucar y arrastra el mouse automaticamenteal efecto para aplicarlo nuevamente al clip
 ; -elejir la ruta del archivo efectPanel.png 
-
-
 ; -checkear si el tacho de basura esta presionado o no
+; cambiar la resolucion de ser necesario (1920, 1080) (2560, 1440)
 
 trashCheck(){
 Send, ^!j::
 CoordMode,Pixel,Screen
-ImageSearch, i, j, 10, 10, 1920, 1080, D:\TOBI-PC\Imagenes\trashActive.png
+ImageSearch, i, j, 10, 10, 2560, 1440, D:\TOBI-PC\Imagenes\trashActive.png
 if ErrorLevel = 0
 	{
 	Send, {Tab 3}
@@ -103,21 +99,21 @@ MouseClick, Left
 Send, ^!j::
 sleep,10
 CoordMode,Pixel,Screen
-ImageSearch, a, b, 10, 10, 1920, 1080, D:\TOBI-PC\Imagenes\panelCheck1.png
+ImageSearch, a, b, 10, 10, 2560, 1440, D:\TOBI-PC\Imagenes\panelCheck1.png
 if ErrorLevel = 0
 	{
 	MouseMove, %a%, %b%
 	MouseClick, Left
 	} 
 sleep, 10
-ImageSearch, c, d, 10, 10, 1920, 1080, D:\TOBI-PC\Imagenes\panelCheck2.png
+ImageSearch, c, d, 10, 10, 2560, 1440, D:\TOBI-PC\Imagenes\panelCheck2.png
 if ErrorLevel = 0
 	{
 	MouseMove, %c%, %d%
 	MouseClick, Left
 	} 
 sleep, 10
-ImageSearch, e, f, 10, 10, 1920, 1080, D:\TOBI-PC\Imagenes\panelCheck3.png
+ImageSearch, e, f, 10, 10, 2560, 1440, D:\TOBI-PC\Imagenes\panelCheck3.png
 if ErrorLevel = 0
 	{
 	MouseMove, %e%, %f%
@@ -133,7 +129,7 @@ sleep, 10
 
 moveToTransition(){
 CoordMode,Pixel,Screen   ; ejecutar dentro de la pantalla en medida de pixeles
-ImageSearch, x, y, 0, 0, 1920, 1080, D:\TOBI-PC\Imagenes\efectPanel.png   ; buscar en la pantalla la imagen 
+ImageSearch, x, y, 0, 0, 2560, 1440, D:\TOBI-PC\Imagenes\efectPanel.png   ; buscar en la pantalla la imagen 
 sleep, 10
 MouseMove, %x%, %y%         ; mover el cursor hacia la imagen reconocida
 sleep, 10
@@ -337,13 +333,105 @@ return
 
 
 
+
+; --------------------------------------------------------------------------
+; ----------------------- Save emoji image  -----------------------------
+; --------------------------------------------------------------------------
+m::
+SendInput, f
+sleep, 500
+SendInput, {d}{a}
+sleep, 100
+SendInput, ^a
+sleep, 200
+SendInput , ^c
+sleep, 100
+SendInput , {RButton}
+sleep, 400
+SendInput , {Down 9}
+sleep, 200
+SendInput , {Enter}
+sleep, 300
+SendInput, ^l
+sleep, 100
+SendInput, D:\TOBI-PC\Descargas\3-VIDEO PROJECTS\1.VIDEO EDITING RESOURCES\MEDIA\EMOJIS PNG {Enter}
+sleep, 500
+SendInput , {Tab}
+sleep, 200
+SendInput , {Tab}
+sleep, 200
+SendInput , {Tab}
+sleep, 200
+SendInput , {Tab}
+sleep, 200
+SendInput , {Tab}
+sleep, 200
+SendInput , {Ctrl down} v {Ctrl up}
+sleep, 500
+SendInput , {Enter}
+return
+
+
+; --------------------------------------------------------------------------
+; ----------------------- Save normal images  -----------------------------
+; --------------------------------------------------------------------------
+n::
+SendInput, f
+sleep, 500
+SendInput, {d}{a}
+sleep, 100
+SendInput, ^a
+sleep, 200
+SendInput , ^c
+sleep, 100
+SendInput , {RButton}
+sleep, 400
+SendInput , {Down 9}
+sleep, 200
+SendInput , {Enter}
+sleep, 300
+SendInput, ^l
+sleep, 100
+SendInput, D:\TOBI-PC\Descargas\3-VIDEO PROJECTS\1.VIDEO EDITING RESOURCES\MEDIA\IMAGES{Enter}
+sleep, 500
+SendInput , {Tab}
+sleep, 200
+SendInput , {Tab}
+sleep, 200
+SendInput , {Tab}
+sleep, 200
+SendInput , {Tab}
+sleep, 200
+SendInput , {Tab}
+sleep, 200
+SendInput , {Ctrl down} v {Ctrl up}
+sleep, 500
+SendInput , {Enter}
+return
+
+
+; --------------------------------------------------------------------------
+; ----------------------- New Premiere Project -----------------------------
+; --------------------------------------------------------------------------
+
+
+; abrir consola y ejecutar script de python
+
+NumpadDot::
+Run, C:\PythonScripts\create_new_premiere_project\new_premiere_project.bat
+WinWaitActive, New Premiere Project
+WinActivate, New Premiere Project
+return
+
+
+
 ; --------------------------------------------------------------------------
 ; ----------------------- Pymiere sounds automation ------------------------
 ; -------------------------------------------------------------------------
 
 
-
 ; abrir consola y ejecutar script de python
+
 
 Numpad7::
 if WinExist("Pymiere Console")
@@ -364,6 +452,8 @@ else
 return
 
 
+
+
 Numpad8::
 if WinExist("Pymiere Console")
 {
@@ -382,46 +472,63 @@ else
 }
 return
 
-#if
 
 
-; --------------------------------------------------------------------------
-; ----------------------- New Premiere Project -----------------------------
-; --------------------------------------------------------------------------
+; -----------------------------------------------------------------------------
+; ------------------------------  Pymiere Add keyframes  -------------------------
+; ------------------------------------------------------------------------------
 
 
-; abrir consola y ejecutar script de python
-
-NumpadDot::
-script := "python new_premiere_project.py "
-InputBox, projName, New Pr Project, Name:, , 179, 132, 1747, 910
-if ErrorLevel {
-    SplashTextOn,,,cancel
-    SplashTextOff
-}
-else{
-
-    if WinExist("New Premiere Project console")
+End::
+if WinExist("Pymiere Console")
 {
-    	WinActivate , New Premiere Project console
-	Send, %script%%projName%
+    	WinActivate , Pymiere Console
+	Send, python pymiere_zoom_key.py
 	Send, {Enter}
-	WinMinimize, New Premiere Project console
+	WinMinimize, Pymiere Console
 }
 else
-
 {
-	Run, C:\PythonScripts\New Premiere Project\New Premiere Project console.lnk
-    	WinWaitActive, New Premiere Project console
-	Send, %script%%projName%
+	Run, C:\PythonScripts\Pymiere Automation\Pymiere Console.lnk
+    	WinWaitActive, Pymiere Console
+	Send, python pymiere_zoom_key.py
 	Send, {Enter}
-	WinMinimize, New Premiere Project console
+	WinMinimize, Pymiere Console
 }
-}
-
 return
 
+
+
+PgDn::
+if WinExist("Pymiere Console")
+{
+    	WinActivate , Pymiere Console
+	Send, python pymiere_zoom_in_key.py
+	Send, {Enter}
+	WinMinimize, Pymiere Console
+}
+else
+{
+	Run, C:\PythonScripts\Pymiere Automation\Pymiere Console.lnk
+    	WinWaitActive, Pymiere Console
+	Send, python pymiere_zoom_in_key.py
+	Send, {Enter}
+	WinMinimize, Pymiere Console
+}
+return
+
+
+
+
+
+
+;-----------------------------------------------------------------
+;-----------------------------------------------------
+
+
 #if
+
+
 
 
 ; -----------------------------------------------------------------------------
